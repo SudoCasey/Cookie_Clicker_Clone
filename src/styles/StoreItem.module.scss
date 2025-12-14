@@ -1,0 +1,10 @@
+.storeItem{
+    border:1px solid #777;
+    &:not(:last-child){
+        margin-bottom: 10px;
+    }
+
+    & button:not(:last-child){
+        margin-right: 10px;
+    }
+}

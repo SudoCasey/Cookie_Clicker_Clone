@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import StoreItem from "./StoreItem.js";
-import styles from "@/styles/Store.module.css";
+import styles from "@/styles/Store.module.scss";
 
 function Store(props) {
     let cookies = props.cookies;
@@ -83,7 +83,7 @@ function Store(props) {
     return (
         <section
             id="storeSection"
-            className={/*${styles.mainSection}*/ `${styles.storeSection}`}
+            className={`${styles.storeSection}`}
         >
             <h2>Store</h2>
             <StoreItem

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from '@/styles/cookieClicker.module.css'
+import styles from '@/styles/cookieClicker.module.scss'
 import Store from './components/Store.js';
 
 

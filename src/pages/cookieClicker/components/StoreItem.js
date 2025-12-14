@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from '@/styles/StoreItem.module.css'
+import styles from '@/styles/StoreItem.module.scss'
 
 
 function StoreItem(props){
@@ -11,7 +11,7 @@ function StoreItem(props){
     
 
     return (
-      <div className={`${styles.bakerSection}`}>
+      <div className={`${styles.storeItem}`}>
         <p>Cost: {`${itemCost*(itemsOwned+1)}`}</p>
         <p>Owned: {`${itemsOwned}`}</p>
         <button onClick={attemptBuy}>{`Buy ${itemName}`}</button>
