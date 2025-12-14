@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from '@/styles/cookieClicker.module.scss'
 import Store from './components/Store.js';
 import Image from 'next/image';
@@ -10,6 +10,7 @@ export default function CookieClicker() {
   let [clickValue, setClickValue] = useState(1);
   let [timeProgressing, setTimeProgressing] = useState(true);
   let [cpsFromStoreItems, setCPSFromStoreItems] = useState(0);
+  const cookieAccumulator = useRef(0); // Accumulates fractional cookies
   const browserCookieName = "cookieCount";
 
   function findBrowserCookie(cookieName) {
@@ -54,13 +55,24 @@ export default function CookieClicker() {
     // Increases player's cookies owned, based on cookies per second from owned store items
     //  speedOfTime sets how often the visible cookie value is updated
     let interval;
-    var speedOfTime = 100; // ms
+    var speedOfTime = 50; // ms
 
     if (timeProgressing) {
       interval = setInterval(()=>{
-        setCookies(prevCookies => 
-          parseInt(prevCookies) + passiveCookieGain(speedOfTime, cpsFromStoreItems)
-        );
+        // Calculate fractional cookies gained this interval
+        const fractionalGain = passiveCookieGain(speedOfTime, cpsFromStoreItems);
+        
+        // Add to accumulator
+        cookieAccumulator.current += fractionalGain;
+        
+        // Extract whole cookies from accumulator
+        const wholeCookies = Math.floor(cookieAccumulator.current);
+        cookieAccumulator.current -= wholeCookies;
+        
+        // Add whole cookies to total
+        if (wholeCookies > 0) {
+          setCookies(prevCookies => parseInt(prevCookies) + wholeCookies);
+        }
       },speedOfTime);
     } else {
       clearInterval(interval)
@@ -103,7 +115,8 @@ export default function CookieClicker() {
     const cookiesPerMillisecond = (cookiesPerSecond + cpsFromStoreItems) / 1000;
     const cookiesGained = cookiesPerMillisecond * speedOfTime;
   
-    return Math.round(cookiesGained);
+    // Return the exact fractional value (don't round) - accumulation handles rounding
+    return cookiesGained;
   }
 
   return (
