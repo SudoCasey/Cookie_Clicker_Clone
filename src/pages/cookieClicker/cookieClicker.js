@@ -51,20 +51,22 @@ export default function CookieClicker() {
   });
 
   useEffect(() => {
+    // Increases player's cookies owned, based on cookies per second from owned store items
+    //  speedOfTime sets how often the visible cookie value is updated
     let interval;
     var speedOfTime = 100; // ms
 
     if (timeProgressing) {
       interval = setInterval(()=>{
-        setCookies(
-          parseInt(cookies) + passiveCookieGain(speedOfTime, cpsFromStoreItems)
+        setCookies(prevCookies => 
+          parseInt(prevCookies) + passiveCookieGain(speedOfTime, cpsFromStoreItems)
         );
       },speedOfTime);
     } else {
       clearInterval(interval)
     }
     return () => clearInterval(interval);
-  }, [timeProgressing, cookies]);
+  }, [timeProgressing, cpsFromStoreItems]);
 
   function click(currentClickValue) {
     setCookies(parseInt(cookies) + currentClickValue);
@@ -115,6 +117,7 @@ export default function CookieClicker() {
                    height={100}
                    src="/cookie.png"
                    alt="Click"
+                   priority={true}
                   />
                   <div>
                       <label htmlFor="clickValue">Click Value</label>
