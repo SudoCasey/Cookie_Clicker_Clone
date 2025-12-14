@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from '@/styles/cookieClicker.module.scss'
 import Store from './components/Store.js';
+import Image from 'next/image';
 
 
 export default function CookieClicker() {
@@ -107,11 +108,13 @@ export default function CookieClicker() {
       <>
           <div className={`${styles.gameContent}`}>
               <section id="clickerSection" className={`${styles.mainSection}`}>
-                  <img
-                      className={`${styles.cookieImg}`}
-                      onClick={() => click(clickValue)}
-                      src="cookie.png"
-                      alt="Click"
+                  <Image
+                   className={`${styles.cookieImg}`}
+                   onClick={() => click(clickValue)}
+                   width={100}
+                   height={100}
+                   src="/cookie.png"
+                   alt="Click"
                   />
                   <div>
                       <label htmlFor="clickValue">Click Value</label>
