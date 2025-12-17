@@ -1,9 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Cookie Clicker Clone
+
+A browser-based idle game built with Next.js, inspired by the popular Cookie Clicker game. Click cookies to earn them, then purchase upgrades to generate cookies automatically!
+
+## Features
+
+- **Cookie Clicking**: Click the cookie image to earn cookies
+- **Adjustable Click Value**: Customize how many cookies you earn per click
+- **Store System**: Purchase various items that generate cookies passively:
+  - **Baker** (100 cookies) - 10 CPS
+  - **Restaurant** (1,000 cookies) - 100 CPS
+  - **Local Baking Club** (10,000 cookies) - 1,000 CPS
+  - **Regional Girl Scout Troop** (100,000 cookies) - 10,000 CPS
+  - **Child-Labor Factory** (1,000,000 cookies) - 100,000 CPS
+  - **National Bakery Holding Co.** (10,000,000 cookies) - 1,000,000 CPS
+- **Buy & Sell**: Purchase items to increase your cookies per second (CPS), or sell them back for 50% refund
+- **Passive Income**: Items generate cookies automatically over time
+- **Time Control**: Pause or resume time progression
+- **Save System**: Cookie count is saved to browser cookies (persists across sessions)
+- **Number Formatting**: Large numbers are automatically abbreviated (K, M, B, T)
+
+## Tech Stack
+
+- **Next.js** 14.1.0 - React framework
+- **React** 18.2.0 - UI library
+- **Sass** - CSS preprocessor for styling
+- **ESLint** - Code linting
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js (v14 or higher recommended)
+- npm, yarn, or pnpm
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone [https://github.com/SudoCasey/Cookie_Clicker_Clone.git](https://github.com/SudoCasey/Cookie_Clicker_Clone.git)
+cd Cookie_Clicker_Clone
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+3. Run the development server:
 ```bash
 npm run dev
 # or
@@ -12,27 +59,60 @@ yarn dev
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to play!
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Usage
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### Basic Gameplay
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. **Click the Cookie**: Click the cookie image to earn cookies
+2. **Adjust Click Value**: Use the "Click Value" input to set how many cookies you earn per click
+3. **Buy Items**: Purchase items from the store to generate cookies automatically
+4. **Sell Items**: Sell items back to the store for a 50% refund if needed
+5. **Monitor Progress**: Watch your CPS (Cookies Per Second) and total cookie count
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Store Items
 
-## Learn More
+Each item's cost increases with each purchase (cost = base cost × (items owned + 1)). Items generate cookies passively based on their CPS value.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+Cookie_Clicker_Clone/
+├── src/
+│   ├── pages/
+│   │   ├── index.js                    # Main page entry point
+│   │   └── cookieClicker/
+│   │       ├── cookieClicker.js        # Main game component
+│   │       └── components/
+│   │           ├── Store.js            # Store component with items
+│   │           └── StoreItem.js        # Individual store item component
+│   └── styles/
+│       ├── globals.scss                # Global styles
+│       ├── cookieClicker.module.scss   # Game component styles
+│       ├── Store.module.scss           # Store component styles
+│       └── StoreItem.module.scss       # Store item styles
+├── public/
+│   └── cookie.png                      # Cookie image asset
+└── package.json                        # Dependencies and scripts
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Available Scripts
 
-## Deploy on Vercel
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The game uses React hooks for state management:
+- `useState` for managing cookies, click value, and store items
+- `useEffect` for passive cookie generation and cookie persistence
+- `useRef` for accumulating fractional cookies
+
+Cookie data is stored in browser cookies with a 1-year expiration. The game automatically loads saved cookie counts on page load.
+
+## License
+
+This project is private and for personal/educational use.
