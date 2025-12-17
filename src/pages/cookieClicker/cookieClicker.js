@@ -119,6 +119,13 @@ export default function CookieClicker() {
     return cookiesGained;
   }
 
+  function abbreviateNumber(longNum){
+    return Intl.NumberFormat('en-US', {
+      notation: "compact",
+      maximumFractionDigits: 3
+    }).format(longNum);
+  }
+
   return (
       <>
           <div className={`${styles.gameContent}`}>
@@ -141,7 +148,7 @@ export default function CookieClicker() {
                           onChange={(event) => updateClickValue(event)}
                       />
                   </div>
-                  <p>CPS: {cpsFromStoreItems}</p>
+                  <p>CPS: {abbreviateNumber(cpsFromStoreItems)}/s</p>
                   <button
                       onClick={() => toggleTimeProgressing(timeProgressing)}
                   >
@@ -157,7 +164,7 @@ export default function CookieClicker() {
                   >
                       Find Browser Cookie
                   </button>
-                  <p>Cookies: {cookies}</p>
+                  <p>Cookies: {abbreviateNumber(cookies)}</p>
                   <p>
                       Browser Cookie{" "}
                       {browserCookie &&
