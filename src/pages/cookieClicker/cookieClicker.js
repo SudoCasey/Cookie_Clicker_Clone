@@ -120,9 +120,15 @@ export default function CookieClicker() {
   }
 
   function abbreviateNumber(longNum){
+    // Gives an abbreviated format of the number given
+    // 1,000 -> 1K
+    // 1,000,000 -> 1M
+    // 1,000,000,000 -> 1B
+    // 1,000,000,000,000 -> 1T (max abbreviation)
+    // 1,000,000,000,000,000 -> 1,000T
     return Intl.NumberFormat('en-US', {
       notation: "compact",
-      maximumFractionDigits: 3
+      maximumFractionDigits: 3 // # of values after decimal point
     }).format(longNum);
   }
 
