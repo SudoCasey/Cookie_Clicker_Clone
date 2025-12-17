@@ -12,13 +12,29 @@ function Store(props) {
     let [restaurantsOwned, setRestaurantsOwned] = useState(0);
     const restaurantBaseCost = 1000;
     const restaurantCPS = 100;
+    let [bakingClubsOwned, setBakingClubsOwned] = useState(0);
+    const bakingClubBaseCost = 10000;
+    const bakingClubCPS = 1000;
+    let [girlScoutsOwned, setGirlScoutsOwned] = useState(0);
+    const girlScoutBaseCost = 100000;
+    const girlScoutCPS = 10000;
+    let [factoriesOwned, setFactoriesOwned] = useState(0);
+    const factoryBaseCost = 1000000;
+    const factoryCPS = 100000;
+    let [companiesOwned, setCompaniesOwned] = useState(0);
+    const companyCost = 10000000;
+    const companyCPS = 1000000;
 
     useEffect(()=>{
         const totalBakersCPS = bakersOwned * bakerCPS;
         const totalRestaurantCPS = restaurantsOwned * restaurantCPS;
-        const totalCPS = totalBakersCPS + totalRestaurantCPS;
+        const totalBakingClubsCPS = bakingClubsOwned * bakingClubCPS;
+        const totalGirlScoutsCPS = girlScoutsOwned * girlScoutCPS;
+        const totalFactoriesCPS = factoriesOwned * factoryCPS;
+        const totalCompaniesCPS = companiesOwned * companyCPS;
+        const totalCPS = totalBakersCPS + totalRestaurantCPS + totalBakingClubsCPS + totalGirlScoutsCPS + totalFactoriesCPS + totalCompaniesCPS;
         updateCPSFromStore(totalCPS);
-    }, [bakersOwned, restaurantsOwned]);
+    }, [bakersOwned, restaurantsOwned, bakingClubsOwned, girlScoutsOwned, factoriesOwned, companiesOwned]);
 
     function attemptBuy(itemName, itemCost, itemsOwned, cookies){
         const currentCost = itemCost*(itemsOwned+1);
@@ -42,6 +58,22 @@ function Store(props) {
                 break;
             case "Restaurant":
                 setRestaurantsOwned(itemsOwned+1);
+                changeCookies(0-currentCost);
+                break;
+            case "Local Baking Club":
+                setBakingClubsOwned(itemsOwned+1);
+                changeCookies(0-currentCost);
+                break;
+            case "Regional Girl Scout Troop":
+                setGirlScoutsOwned(itemsOwned+1);
+                changeCookies(0-currentCost);
+                break;
+            case "Child-Labor Factory":
+                setFactoriesOwned(itemsOwned+1);
+                changeCookies(0-currentCost);
+                break;
+            case "National Bakery Holding Co.":
+                setCompaniesOwned(itemsOwned+1);
                 changeCookies(0-currentCost);
                 break;
             default:
@@ -72,6 +104,22 @@ function Store(props) {
                 setRestaurantsOwned(itemsOwned-1);
                 changeCookies(refund);
                 break;
+            case "Local Baking Club":
+                setBakingClubsOwned(itemsOwned-1);
+                changeCookies(refund);
+                break;
+            case "Regional Girl Scout Troop":
+                setGirlScoutsOwned(itemsOwned-1);
+                changeCookies(refund);
+                break;
+            case "Child-Labor Factory":
+                setFactoriesOwned(itemsOwned-1);
+                changeCookies(refund);
+                break;
+            case "National Bakery Holding Co.":
+                setCompaniesOwned(itemsOwned-1);
+                changeCookies(refund);
+                break;
             default:
                 console.warn("unknown item: ", itemName);
                 break;
@@ -100,6 +148,35 @@ function Store(props) {
                 attemptBuy={()=>{attemptBuy("Restaurant", restaurantBaseCost, restaurantsOwned, cookies)}}
                 attemptSell={()=>{attemptSell("Restaurant", restaurantBaseCost, restaurantsOwned, cookies)}}
             ></StoreItem>
+            <StoreItem
+                itemName={"Local Baking Club"}
+                itemCost={bakingClubBaseCost}
+                itemsOwned={bakingClubsOwned}
+                attemptBuy={()=>{attemptBuy("Local Baking Club", bakingClubBaseCost, bakingClubsOwned, cookies)}}
+                attemptSell={()=>{attemptSell("Local Baking Club", bakingClubBaseCost, bakingClubsOwned, cookies)}}
+            ></StoreItem>
+            <StoreItem
+                itemName={"Regional Girl Scout Troop"}
+                itemCost={girlScoutBaseCost}
+                itemsOwned={girlScoutsOwned}
+                attemptBuy={()=>{attemptBuy("Regional Girl Scout Troop", girlScoutBaseCost, girlScoutsOwned, cookies)}}
+                attemptSell={()=>{attemptSell("Regional Girl Scout Troop", girlScoutBaseCost, girlScoutsOwned, cookies)}}
+            ></StoreItem>
+            <StoreItem
+                itemName={"Child-Labor Factory"}
+                itemCost={factoryBaseCost}
+                itemsOwned={factoriesOwned}
+                attemptBuy={()=>{attemptBuy("Child-Labor Factory", factoryBaseCost, factoriesOwned, cookies)}}
+                attemptSell={()=>{attemptSell("Child-Labor Factory", factoryBaseCost, factoriesOwned, cookies)}}
+            ></StoreItem>
+            <StoreItem
+                itemName={"National Bakery Holding Co."}
+                itemCost={companyCost}
+                itemsOwned={companiesOwned}
+                attemptBuy={()=>{attemptBuy("National Bakery Holding Co.", companyCost, companiesOwned, cookies)}}
+                attemptSell={()=>{attemptSell("National Bakery Holding Co.", companyCost, companiesOwned, cookies)}}
+            ></StoreItem>
+
         </section>
     );
 }

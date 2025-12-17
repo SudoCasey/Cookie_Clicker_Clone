@@ -55,7 +55,7 @@ export default function CookieClicker() {
     // Increases player's cookies owned, based on cookies per second from owned store items
     //  speedOfTime sets how often the visible cookie value is updated
     let interval;
-    var speedOfTime = 50; // ms
+    var speedOfTime = 20; // ms
 
     if (timeProgressing) {
       interval = setInterval(()=>{
@@ -141,6 +141,7 @@ export default function CookieClicker() {
                           onChange={(event) => updateClickValue(event)}
                       />
                   </div>
+                  <p>CPS: {cpsFromStoreItems}</p>
                   <button
                       onClick={() => toggleTimeProgressing(timeProgressing)}
                   >

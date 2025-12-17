@@ -6,7 +6,11 @@
         margin-bottom: 10px;
     }
 
+    & button{
+        width:100%;
+    }
+
     & button:not(:last-child){
-        margin-right: 10px;
+        margin-bottom: 5px;
     }
 }
