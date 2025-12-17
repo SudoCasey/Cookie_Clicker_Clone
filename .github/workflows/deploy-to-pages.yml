@@ -1,0 +1,51 @@
+name: Deploy to GitHub Pages Repository
+
+on:
+  workflow_run:
+    workflows: ["Build and Export Next.js"]
+    types:
+      - completed
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build Next.js application
+        run: npm run build
+      
+      - name: Checkout GitHub Pages repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.GITHUB_PAGES_REPO }} # Format: owner/repo-name
+          token: ${{ secrets.GITHUB_PAGES_TOKEN }}
+          path: gh-pages
+      
+      - name: Copy build output to GitHub Pages repo
+        run: |
+          cd gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm -rf * .[!.]* || true
+          cp -r ../out/* .
+      
+      - name: Commit and push to GitHub Pages
+        run: |
+          cd gh-pages
+          git add .
+          git commit -m "Deploy from ${{ github.repository }}@${{ github.sha }}" || exit 0
+          git push
