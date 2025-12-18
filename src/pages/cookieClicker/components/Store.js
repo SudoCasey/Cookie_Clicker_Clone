@@ -138,6 +138,7 @@ function Store(props) {
                 itemName={"Baker"}
                 itemCost={bakerBaseCost}
                 itemsOwned={bakersOwned}
+                itemCPS={bakerCPS}
                 itemIcon={"./baker.png"}
                 attemptBuy={()=>{attemptBuy("Baker", bakerBaseCost, bakersOwned, cookies)}}
                 attemptSell={()=>{attemptSell("Baker", bakerBaseCost, bakersOwned, cookies)}}
@@ -146,6 +147,7 @@ function Store(props) {
                 itemName={"Restaurant"}
                 itemCost={restaurantBaseCost}
                 itemsOwned={restaurantsOwned}
+                itemCPS={restaurantCPS}
                 itemIcon={"./restaurant.png"}
                 attemptBuy={()=>{attemptBuy("Restaurant", restaurantBaseCost, restaurantsOwned, cookies)}}
                 attemptSell={()=>{attemptSell("Restaurant", restaurantBaseCost, restaurantsOwned, cookies)}}
@@ -154,6 +156,7 @@ function Store(props) {
                 itemName={"Local Baking Club"}
                 itemCost={bakingClubBaseCost}
                 itemsOwned={bakingClubsOwned}
+                itemCPS={bakingClubCPS}
                 itemIcon={"./baking_club.png"}
                 attemptBuy={()=>{attemptBuy("Local Baking Club", bakingClubBaseCost, bakingClubsOwned, cookies)}}
                 attemptSell={()=>{attemptSell("Local Baking Club", bakingClubBaseCost, bakingClubsOwned, cookies)}}
@@ -162,6 +165,7 @@ function Store(props) {
                 itemName={"Regional Girl Scout Troop"}
                 itemCost={girlScoutBaseCost}
                 itemsOwned={girlScoutsOwned}
+                itemCPS={girlScoutCPS}
                 itemIcon={"./girl_scouts.png"}
                 attemptBuy={()=>{attemptBuy("Regional Girl Scout Troop", girlScoutBaseCost, girlScoutsOwned, cookies)}}
                 attemptSell={()=>{attemptSell("Regional Girl Scout Troop", girlScoutBaseCost, girlScoutsOwned, cookies)}}
@@ -170,6 +174,7 @@ function Store(props) {
                 itemName={"Child-Labor Factory"}
                 itemCost={factoryBaseCost}
                 itemsOwned={factoriesOwned}
+                itemCPS={factoryCPS}
                 itemIcon={"./factory.png"}
                 attemptBuy={()=>{attemptBuy("Child-Labor Factory", factoryBaseCost, factoriesOwned, cookies)}}
                 attemptSell={()=>{attemptSell("Child-Labor Factory", factoryBaseCost, factoriesOwned, cookies)}}
@@ -178,6 +183,7 @@ function Store(props) {
                 itemName={"National Bakery Holding Co."}
                 itemCost={companyCost}
                 itemsOwned={companiesOwned}
+                itemCPS={companyCPS}
                 itemIcon={"holding_company.png"}
                 attemptBuy={()=>{attemptBuy("National Bakery Holding Co.", companyCost, companiesOwned, cookies)}}
                 attemptSell={()=>{attemptSell("National Bakery Holding Co.", companyCost, companiesOwned, cookies)}}
