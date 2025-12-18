@@ -49,3 +49,4 @@ jobs:
           git add .
           git commit -m "Deploy from ${{ github.repository }}@${{ github.sha }}" || exit 0
           git push
+

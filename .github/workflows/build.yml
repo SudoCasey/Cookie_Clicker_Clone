@@ -33,3 +33,4 @@ jobs:
           name: nextjs-export
           path: out/
           retention-days: 30
+
