@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Navbar from './components/Navbar.js';
 import styles from '@/styles/cookieClicker.module.scss'
 import Store from './components/Store.js';
 import Image from 'next/image';
@@ -135,12 +136,14 @@ export default function CookieClicker() {
   return (
       <>
           <div className={`${styles.gameContent}`}>
+            <Navbar />
+            <div>
               <section id="clickerSection" className={`${styles.mainSection}`}>
                   <Image
                    className={`${styles.cookieImg}`}
                    onClick={() => click(clickValue)}
-                   width={100}
-                   height={100}
+                   width={200}
+                   height={200}
                    src="/cookie.png"
                    alt="Click"
                    priority={true}
@@ -190,6 +193,7 @@ export default function CookieClicker() {
                     setCPSFromStoreItems(value);
                   }}
               ></Store>
+            </div>
           </div>
       </>
   );
