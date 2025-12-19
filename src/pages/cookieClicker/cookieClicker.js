@@ -1,56 +1,86 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Navbar from './components/Navbar.js';
 import styles from '@/styles/cookieClicker.module.scss'
 import Store from './components/Store.js';
 import Image from 'next/image';
 
+const SAVE_KEY = "cookieClickerGameState";
 
 export default function CookieClicker() {
   let [cookies, setCookies] = useState(0);
-  let [browserCookie, setBrowserCookie] = useState({});
   let [clickValue, setClickValue] = useState(1);
   let [timeProgressing, setTimeProgressing] = useState(true);
   let [cpsFromStoreItems, setCPSFromStoreItems] = useState(0);
   const cookieAccumulator = useRef(0); // Accumulates fractional cookies
-  const browserCookieName = "cookieCount";
+  const [storeItems, setStoreItems] = useState({
+    bakersOwned: 0,
+    restaurantsOwned: 0,
+    bakingClubsOwned: 0,
+    girlScoutsOwned: 0,
+    factoriesOwned: 0,
+    companiesOwned: 0
+  });
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  function findBrowserCookie(cookieName) {
-    if (typeof document !== "undefined") {
-      const cookiesArray = document.cookie
-        .split(";")
-        .map((cookie) => cookie.trim().split("="));
-      const cookie = cookiesArray.find(([name]) => name === cookieName);
-      if (cookie) {
-        const [name, value] = cookie;
-        return {
-          name: name,
-          value: value,
-        };
+  // Load game state from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedState = localStorage.getItem(SAVE_KEY);
+      if (savedState) {
+        try {
+          const gameState = JSON.parse(savedState);
+          setCookies(gameState.cookies || 0);
+          setClickValue(gameState.clickValue || 1);
+          setTimeProgressing(gameState.timeProgressing !== undefined ? gameState.timeProgressing : true);
+          if (gameState.storeItems) {
+            setStoreItems(gameState.storeItems);
+          }
+          setIsLoaded(true);
+        } catch (error) {
+          console.error("Error loading game state:", error);
+          setIsLoaded(true);
+        }
+      } else {
+        setIsLoaded(true);
       }
     }
-    return false;
-  }
+  }, []);
 
+  // Save game state to localStorage
+  const saveGameState = useCallback(() => {
+    if (typeof window !== "undefined") {
+      const gameState = {
+        cookies: cookies,
+        clickValue: clickValue,
+        timeProgressing: timeProgressing,
+        storeItems: storeItems,
+        lastSaved: new Date().toISOString()
+      };
+      try {
+        localStorage.setItem(SAVE_KEY, JSON.stringify(gameState));
+      } catch (error) {
+        console.error("Error saving game state:", error);
+      }
+    }
+  }, [cookies, clickValue, timeProgressing, storeItems]);
+
+  // Auto-save whenever important state changes
   useEffect(() => {
-    //No Dependencies
-    const foundCookie = findBrowserCookie(browserCookieName);
-    //console.log("foundCookie: ",foundCookie);
-    //console.log("browserCookie: ",browserCookie);
-    /*if (foundCookie && foundCookie.value > cookies) {
-      console.log("resuming play...");
-      setCookies(foundCookie.value);
-    } else*/ if (
-      !foundCookie ||
-      !foundCookie.value ||
-      foundCookie.value == undefined ||
-      foundCookie.value == "undefined"
-    ) {
-      setBrowserCookie(saveBrowserCookie(0));
+    if (isLoaded) {
+      saveGameState();
     }
-    if (Object.keys(browserCookie).length === 0) {
-      setBrowserCookie(foundCookie);
-    }
-  });
+  }, [isLoaded, saveGameState]);
+
+  // Also save periodically (every 30 seconds) as a backup
+  useEffect(() => {
+    if (!isLoaded) return;
+    
+    const autoSaveInterval = setInterval(() => {
+      saveGameState();
+    }, 30000); // Save every 30 seconds
+
+    return () => clearInterval(autoSaveInterval);
+  }, [isLoaded, saveGameState]);
 
   useEffect(() => {
     // Increases player's cookies owned, based on cookies per second from owned store items
@@ -85,20 +115,8 @@ export default function CookieClicker() {
     setCookies(parseInt(cookies) + currentClickValue);
   }
 
-  //TODO
-  // Add ability to save owned storeItems
-  function saveBrowserCookie(Cookies) {
-    if (Cookies) {
-      let cookieString = `${browserCookieName}=${Cookies}; Secure; Path=/; SameSite=Strict; Max-Age=31536000`;
-      document.cookie = cookieString;
-      return cookieString;
-    } else {
-      let cookieString = `${browserCookieName}=${
-        browserCookie.value === "undefined" ? 0 : browserCookie.value
-      }; Secure; Path=/; SameSite=Strict; Max-Age=31536000`;
-      document.cookie = cookieString;
-      return cookieString;
-    }
+  function updateStoreItems(updates) {
+    setStoreItems(prev => ({ ...prev, ...updates }));
   }
 
   function updateClickValue(event) {
@@ -163,25 +181,10 @@ export default function CookieClicker() {
                   >
                       {timeProgressing ? "Pause" : "Start"} Time
                   </button>
-                  <button onClick={() => saveBrowserCookie(cookies)}>
-                      Save Browser Cookie
-                  </button>
-                  <button
-                      onClick={() =>
-                          setBrowserCookie(findBrowserCookie(browserCookieName))
-                      }
-                  >
-                      Find Browser Cookie
+                  <button onClick={() => saveGameState()}>
+                      Save Game
                   </button>
                   <p>Cookies: {abbreviateNumber(cookies)}</p>
-                  <p>
-                      Browser Cookie{" "}
-                      {browserCookie &&
-                      browserCookie.name &&
-                      browserCookie.name === browserCookieName
-                          ? "Exists"
-                          : "Doesn't Exist"}
-                  </p>
                   <p>Time is {timeProgressing ? "Progressing" : "Paused"}</p>
               </section>
               <Store
@@ -192,6 +195,8 @@ export default function CookieClicker() {
                   updateCPSFromStore={(value) => {
                     setCPSFromStoreItems(value);
                   }}
+                  storeItems={storeItems}
+                  updateStoreItems={updateStoreItems}
               ></Store>
             </div>
           </div>

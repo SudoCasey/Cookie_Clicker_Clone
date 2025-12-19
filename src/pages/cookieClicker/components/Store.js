@@ -6,24 +6,35 @@ function Store(props) {
     let cookies = props.cookies;
     let changeCookies = props.changeCookies;
     let updateCPSFromStore = props.updateCPSFromStore;
-    let [bakersOwned, setBakersOwned] = useState(0);
+    let storeItems = props.storeItems || {
+        bakersOwned: 0,
+        restaurantsOwned: 0,
+        bakingClubsOwned: 0,
+        girlScoutsOwned: 0,
+        factoriesOwned: 0,
+        companiesOwned: 0
+    };
+    let updateStoreItems = props.updateStoreItems;
+    
     const bakerBaseCost = 100;
     const bakerCPS = 10;
-    let [restaurantsOwned, setRestaurantsOwned] = useState(0);
     const restaurantBaseCost = 1000;
     const restaurantCPS = 100;
-    let [bakingClubsOwned, setBakingClubsOwned] = useState(0);
     const bakingClubBaseCost = 10000;
     const bakingClubCPS = 1000;
-    let [girlScoutsOwned, setGirlScoutsOwned] = useState(0);
     const girlScoutBaseCost = 100000;
     const girlScoutCPS = 10000;
-    let [factoriesOwned, setFactoriesOwned] = useState(0);
     const factoryBaseCost = 1000000;
     const factoryCPS = 100000;
-    let [companiesOwned, setCompaniesOwned] = useState(0);
     const companyCost = 10000000;
     const companyCPS = 1000000;
+
+    const bakersOwned = storeItems.bakersOwned || 0;
+    const restaurantsOwned = storeItems.restaurantsOwned || 0;
+    const bakingClubsOwned = storeItems.bakingClubsOwned || 0;
+    const girlScoutsOwned = storeItems.girlScoutsOwned || 0;
+    const factoriesOwned = storeItems.factoriesOwned || 0;
+    const companiesOwned = storeItems.companiesOwned || 0;
 
     useEffect(()=>{
         const totalBakersCPS = bakersOwned * bakerCPS;
@@ -53,27 +64,27 @@ function Store(props) {
     function buyItem(itemName, itemsOwned, currentCost){
         switch(itemName){
             case "Baker":
-                setBakersOwned(itemsOwned+1);
+                updateStoreItems({ bakersOwned: itemsOwned + 1 });
                 changeCookies(0-currentCost);
                 break;
             case "Restaurant":
-                setRestaurantsOwned(itemsOwned+1);
+                updateStoreItems({ restaurantsOwned: itemsOwned + 1 });
                 changeCookies(0-currentCost);
                 break;
             case "Local Baking Club":
-                setBakingClubsOwned(itemsOwned+1);
+                updateStoreItems({ bakingClubsOwned: itemsOwned + 1 });
                 changeCookies(0-currentCost);
                 break;
             case "Regional Girl Scout Troop":
-                setGirlScoutsOwned(itemsOwned+1);
+                updateStoreItems({ girlScoutsOwned: itemsOwned + 1 });
                 changeCookies(0-currentCost);
                 break;
             case "Child-Labor Factory":
-                setFactoriesOwned(itemsOwned+1);
+                updateStoreItems({ factoriesOwned: itemsOwned + 1 });
                 changeCookies(0-currentCost);
                 break;
             case "National Bakery Holding Co.":
-                setCompaniesOwned(itemsOwned+1);
+                updateStoreItems({ companiesOwned: itemsOwned + 1 });
                 changeCookies(0-currentCost);
                 break;
             default:
@@ -97,27 +108,27 @@ function Store(props) {
         const refund = currentCost/2;
         switch(itemName){
             case "Baker":
-                setBakersOwned(itemsOwned-1);
+                updateStoreItems({ bakersOwned: itemsOwned - 1 });
                 changeCookies(refund);
                 break;
             case "Restaurant":
-                setRestaurantsOwned(itemsOwned-1);
+                updateStoreItems({ restaurantsOwned: itemsOwned - 1 });
                 changeCookies(refund);
                 break;
             case "Local Baking Club":
-                setBakingClubsOwned(itemsOwned-1);
+                updateStoreItems({ bakingClubsOwned: itemsOwned - 1 });
                 changeCookies(refund);
                 break;
             case "Regional Girl Scout Troop":
-                setGirlScoutsOwned(itemsOwned-1);
+                updateStoreItems({ girlScoutsOwned: itemsOwned - 1 });
                 changeCookies(refund);
                 break;
             case "Child-Labor Factory":
-                setFactoriesOwned(itemsOwned-1);
+                updateStoreItems({ factoriesOwned: itemsOwned - 1 });
                 changeCookies(refund);
                 break;
             case "National Bakery Holding Co.":
-                setCompaniesOwned(itemsOwned-1);
+                updateStoreItems({ companiesOwned: itemsOwned - 1 });
                 changeCookies(refund);
                 break;
             default:
