@@ -18,15 +18,15 @@ function Store(props) {
     
     const bakerBaseCost = 100;
     const bakerCPS = 10;
-    const restaurantBaseCost = 1000;
+    const restaurantBaseCost = bakerBaseCost*25;
     const restaurantCPS = 100;
-    const bakingClubBaseCost = 10000;
+    const bakingClubBaseCost = restaurantBaseCost*25;
     const bakingClubCPS = 1000;
-    const girlScoutBaseCost = 100000;
+    const girlScoutBaseCost = bakingClubBaseCost*25;
     const girlScoutCPS = 10000;
-    const factoryBaseCost = 1000000;
+    const factoryBaseCost = girlScoutBaseCost*25;
     const factoryCPS = 100000;
-    const companyCost = 10000000;
+    const companyCost = factoryBaseCost*25;
     const companyCPS = 1000000;
 
     const bakersOwned = storeItems.bakersOwned || 0;

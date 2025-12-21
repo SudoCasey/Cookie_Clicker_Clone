@@ -175,7 +175,7 @@ export default function CookieClicker() {
                           onChange={(event) => updateClickValue(event)}
                       />
                   </div>
-                  <p>CPS: {abbreviateNumber(cpsFromStoreItems)}/s</p>
+                  <p>Cookies per Second: {abbreviateNumber(cpsFromStoreItems)}/s</p>
                   <button
                       onClick={() => toggleTimeProgressing(timeProgressing)}
                   >
