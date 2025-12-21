@@ -190,6 +190,7 @@ export default function CookieClicker() {
                    src="/cookie.png"
                    alt="Click"
                    priority={true}
+                   draggable={false}
                   />
                   <div>
                       <label htmlFor="clickValue">Click Value</label>
