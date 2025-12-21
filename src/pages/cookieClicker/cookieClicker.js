@@ -128,8 +128,33 @@ export default function CookieClicker() {
     setTimeProgressing(!timeProgressing);
   }
 
+  function resetGame() {
+    const confirmed = window.confirm("Are you sure you want to reset the game? This will clear all save data and start over at 0 cookies and 0 store items. This action cannot be undone.");
+    
+    if (confirmed) {
+      // Clear localStorage
+      if (typeof window !== "undefined") {
+        localStorage.removeItem(SAVE_KEY);
+      }
+      
+      // Reset all state to initial values
+      setCookies(0);
+      setClickValue(1);
+      setTimeProgressing(true);
+      setCPSFromStoreItems(0);
+      cookieAccumulator.current = 0;
+      setStoreItems({
+        bakersOwned: 0,
+        restaurantsOwned: 0,
+        bakingClubsOwned: 0,
+        girlScoutsOwned: 0,
+        factoriesOwned: 0,
+        companiesOwned: 0
+      });
+    }
+  }
+
   function passiveCookieGain(speedOfTime, cpsFromStoreItems) {
-    //console.log("cpsFromStoreItems: ", cpsFromStoreItems);
     const cookiesPerSecond = 0;
     const cookiesPerMillisecond = (cookiesPerSecond + cpsFromStoreItems) / 1000;
     const cookiesGained = cookiesPerMillisecond * speedOfTime;
@@ -183,6 +208,9 @@ export default function CookieClicker() {
                   </button>
                   <button onClick={() => saveGameState()}>
                       Save Game
+                  </button>
+                  <button onClick={() => resetGame()}>
+                      Reset Game
                   </button>
                   <p>Cookies: {abbreviateNumber(cookies)}</p>
                   <p>Time is {timeProgressing ? "Progressing" : "Paused"}</p>
